@@ -38,7 +38,7 @@
 			</div>
 			<div class="block_left">
 
-			<?php if(is_active_sidebar('breadcrumbs_in_header') && !is_home())  : ?>
+			<?php if(is_active_sidebar('breadcrumbs_in_header') && !is_home() && !is_front_page())  : ?>
 				<div class="breadcrumbs">
 					<?php dynamic_sidebar('breadcrumbs_in_header'); ?>
 				</div>
