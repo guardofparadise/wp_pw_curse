@@ -16,16 +16,20 @@ function restaurant_styles() {
 
 	wp_register_style('googlefont', 'https://fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway:400,700,900', array(), '1.0.0');
 	wp_register_style('normalize', get_template_directory_uri() . '/css/normalize.css', array(), '1.0');
+	wp_register_style('fluidboxcss', get_template_directory_uri() . '/css/fluidbox.min.css', array(), '1.0');
 	wp_register_style('font-awesome', get_template_directory_uri() . '/css/font-awesome.min.css', array('normalize'), '1.0');
 	wp_register_style('style', get_template_directory_uri() . '/style.css', array('normalize'), '1.0');
 	
 	wp_enqueue_style('normalize');
 	wp_enqueue_style('font-awesome');
+	wp_enqueue_style('fluidboxcss');
 	wp_enqueue_style('style');
 
+	wp_register_script('fluidboxjs', get_template_directory_uri() . '/js/jquery.fluidbox.min.js', array('jquery'), '1.0', true);
 	wp_register_script('script', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0', true);
 
 	wp_enqueue_script('jquery');
+	wp_enqueue_script('fluidboxjs');
 	wp_enqueue_script('script');
 }
 
@@ -54,6 +58,19 @@ function register_breadcrumbs() {
 }
 
 add_action('widgets_init', 'register_breadcrumbs');
+
+function pizzeria_widget() {
+	register_sidebar( array(
+		'name' => 'Blog Sidebar',
+		'id'	 => 'blog_sidebar',
+		'before_widget' => '<div class="widget">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h3>',
+		'after_title'		=> '</h3>'
+	) );
+}
+
+add_action('widgets_init', 'pizzeria_widget');
 
 function restaurant_specialties() {
 	$labels = array(

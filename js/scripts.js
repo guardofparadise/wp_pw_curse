@@ -18,4 +18,11 @@ $(document).ready(function(){
 		}
 	});
 
+	console.log('sdf')
+	$('.gallery a').each(function() {$(this).attr({'data-fluidbox': ''})})
+
+	if ($('[data-fluidbox]').length > 0) {
+			$('[data-fluidbox]').fluidbox();
+	}
+
 });
