@@ -805,7 +805,7 @@ li.comment ul.children li {
 /** Reservation Page **/
 
 .reservation {
-	background-image: url(img/bg_contact.jpg);
+	background-image: url(img/img/bg_contact.jpg);
 	background-repeat: no-repeat;
 	background-position: top left;
 }
@@ -835,7 +835,7 @@ form.reservation-form .field textarea {
 	font-size: 16px;
 }
 
-form.reservation-form .field textarea {
+form.reservation-form .field input[type="textarea"] {
 	height: 200px;
 }
 
