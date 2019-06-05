@@ -68,7 +68,9 @@ jQuery(function($){
 			},
 			success: function( data ) {
 				$('.submit_reserv').text('Отправить');	
-				alert(data);
+				$('input[name]').val('');
+				$('input[name=res_reservation]').val('Send');
+				return data;
 			}
 		});
 	});

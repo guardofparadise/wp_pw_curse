@@ -155,12 +155,17 @@ function test_function(){
 			'%s'
 		);
 
-		$table = 'wp_reservation';
-		$res = $wpdb->insert($table, $data2, $format);
+		$table = $wpdb->prefix . 'reservation';
 
-		var_dump($res); exit();
-		
-
-
+		try {
+			$res = $wpdb->insert($table, $data2, $format);
+				$url = get_page_by_title('Thanks for your reservation!');
+				wp_redirect(get_permalink($url));
+				exit();
+		} catch (Exception $e) {
+				$url = get_page_by_title('Oops! Your email has not been sent…');
+				wp_redirect(get_permalink($url));
+				exit();
+		}
 	}
 
