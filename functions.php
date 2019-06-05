@@ -1,7 +1,8 @@
 <?php
 
 require get_template_directory() .'/inc/database.php';
-require get_template_directory() .'/inc/reservations.php';
+//require get_template_directory() .'/inc/reservations.php';
+require get_template_directory() .'/inc/options.php';
 
 function restaurant_setup() {
 	add_theme_support('post-thumbnails');
@@ -12,6 +13,8 @@ function restaurant_setup() {
   update_option('thumbnail_size_w', 253);
   update_option('thumbnail_size_h', 164);
 }
+
+add_action('wp_head', 'test_js_vars');
 
 add_action('after_setup_theme', 'restaurant_setup');
 
@@ -112,3 +115,52 @@ function restaurant_specialties() {
 	register_post_type('specialties', $args);
 }
 add_action('init', 'restaurant_specialties');
+
+function test_js_vars() {
+	$vars = array(
+		'ajax_url' => admin_url('admin-ajax.php') 
+	);
+	echo "<script>window.wp = " . json_encode($vars) . "</script>";
+}
+
+
+
+
+
+add_action( 'wp_ajax_ajax-test', 'test_function' ); 
+add_action( 'wp_ajax_nopriv_ajax-test', 'test_function' );  
+ 
+function test_function(){
+	global $wpdb;
+
+			$name = $_POST['name'];
+			$date = $_POST['date'];
+			$email = $_POST['email'];
+			$phone = $_POST['phone'];
+			$message = $_POST['message'];
+
+		$data2 = array(
+			'name' => $name,
+			'date' => $date,
+			'email' => $email,
+			'phone' => $phone,
+			'message' => $message,
+		);
+
+		$format = array(
+			'%s',
+			'%s',
+			'%s',
+			'%s',
+			'%s'
+		);
+
+		$table = 'wp_reservation';
+		$res = $wpdb->insert($table, $data2, $format);
+
+		var_dump($res); exit();
+		
+
+
+	}
+

@@ -13,11 +13,11 @@
 			$table = 'wp_reservation';
 
 			$data = array(
-				'res_name' => $res_name,
-				'res_date' => $res_date,
-				'res_email' => $res_email,
-				'res_phone' => $res_phone,
-				'res_message' => $res_message
+				'name' => $res_name,
+				'date' => $res_date,
+				'email' => $res_email,
+				'phone' => $res_phone,
+				'message' => $res_message
 			);
 
 			$format = array(
@@ -27,11 +27,17 @@
 				'%s',
 				'%s'
 			);
+			try {
+				$wpdb->insert($table, $data, $format);
+				// $url = get_page_by_title('Thanks for your reservation!');
+				// wp_redirect(get_permalink($url));
+				// exit();				
+			} catch (Exception $e) {
+				// $url = get_page_by_title('Oops! Your email has not been sent…');
+				// wp_redirect(get_permalink($url));
+				// exit();				
+			}
 
-			$wpdb->insert($table, $data, $format);
-			$url = get_page_by_title('Thanks fory your reservation!');
-			wp_redirect(get_permalink($url));
-			exit();
 		}
 	}
 

@@ -29,12 +29,12 @@
 						<input type="text" name="res_email" placeholder="E-mail" required>
 					</div>
 					<div class="field">
-						<input type="tel" name="res_phone" placeholder="Phone Number" required>
+						<input type="text" name="res_phone" placeholder="Phone Number" required>
 					</div>
 					<div class="field">
-						<input type="textarea" name="message" placeholder="Message" required>
+						<input type="textarea" name="res_message" placeholder="Message" required>
 					</div>
-					<input type="submit" name="res_reservation" value="Send" class="button">
+					<input type="submit" name="res_reservation" value="Send" class="button submit_reserv">
 					<input type="hidden" name="res_hidden" value="1">
 				</form>
 				
@@ -43,4 +43,34 @@
 
 	<?php endwhile; ?>
 
+
+
+
 <?php get_footer(); ?>
+<script>
+jQuery(function($){
+	$('.submit_reserv').click(function(e){
+		e.preventDefault();
+		$.ajax({
+			url: '<?php echo admin_url("admin-ajax.php") ?>',
+			type: 'POST',
+			data: {
+				action: 'ajax-test',
+				name: $('input[name=res_name]').val(),
+				date: $('input[name=res_date]').val(),
+				email: $('input[name=res_email]').val(),
+				phone: $('input[name=res_phone]').val(),
+				message: $('input[name=res_message]').val(),
+				form_type: $('input[name=res_hidden]').val()
+			}, 
+			beforeSend: function( xhr ) {
+				$('.submit_reserv').text('Загрузка, 5 сек...');	
+			},
+			success: function( data ) {
+				$('.submit_reserv').text('Отправить');	
+				alert(data);
+			}
+		});
+	});
+});
+	</script>

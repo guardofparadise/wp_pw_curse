@@ -26,3 +26,21 @@ $(document).ready(function(){
 	}
 
 });
+
+
+// $('.submit_reserv').on('click', function(e) {
+// 	e.preventDefault();
+// 	var data = {
+// 		action: 'reserver',
+// 		name: $('input[name=res_name]').val(),
+// 		date: $('input[name=res_date]').val(),
+// 		email: $('input[name=res_email]').val(),
+// 		phone: $('input[name=res_phone]').val(),
+// 		message: $('input[name=res_message]').val(),
+// 		form_type: $('input[name=res_hidden]').val()
+// 	};
+
+// 	$.post(window.wp.ajax_url, data, function(res){
+// 		alert(1)
+// 	}, 'json');
+// })
