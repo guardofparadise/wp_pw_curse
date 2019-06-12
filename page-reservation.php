@@ -69,8 +69,14 @@ jQuery(function($){
 			success: function( data ) {
 				$('.submit_reserv').text('Отправить');	
 				$('input[name]').val('');
-				$('input[name=res_reservation]').val('Send');
+				$('input[name=res_reservation]').val('Send!');
 				return data;
+			},
+			error: function() {
+				alert(1);
+			},
+			complete: function() {
+				alert('complete');
 			}
 		});
 	});

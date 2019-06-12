@@ -1,45 +1,48 @@
 <?php 
-	function restaurant_save_reservation() {
-		global $wpdb;
 
-		if(isset($_POST['res_reservation']) && $_POST['res_hidden'] == '1') {
-			
-			$res_name = $_POST['res_name'];
-			$res_date = $_POST['res_date'];
-			$res_email = $_POST['res_email'];
-			$res_phone = $_POST['res_phone'];
-			$res_message = $_POST['res_message'];
-		
-			$table = 'wp_reservation';
+function test_function(){
+	global $wpdb;
 
-			$data = array(
-				'name' => $res_name,
-				'date' => $res_date,
-				'email' => $res_email,
-				'phone' => $res_phone,
-				'message' => $res_message
-			);
+			$name = sanitize_text_field($_POST['name']);
+			$date = sanitize_text_field($_POST['date']);
+			$email = sanitize_email($_POST['email']);
+			$phone = sanitize_text_field($_POST['phone']);
+			$message = sanitize_text_field($_POST['message']);	
 
-			$format = array(
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s'
-			);
-			try {
-				$wpdb->insert($table, $data, $format);
+		$data2 = array(
+			'name' => $name,
+			'date' => $date,
+			'email' => $email,
+			'phone' => $phone,
+			'message' => $message,
+		);
+
+		foreach($data2 as $item) {
+			if(empty($item)) return;
+		}
+
+		$format = array(
+			'%s',
+			'%s',
+			'%s',
+			'%s',
+			'%s'
+		);
+
+		$table = $wpdb->prefix . 'reservation';
+
+		try {
+			$res = $wpdb->insert($table, $data2, $format);
 				// $url = get_page_by_title('Thanks for your reservation!');
 				// wp_redirect(get_permalink($url));
-				// exit();				
-			} catch (Exception $e) {
+				// exit();
+		} catch (Exception $e) {
 				// $url = get_page_by_title('Oops! Your email has not been sent…');
 				// wp_redirect(get_permalink($url));
-				// exit();				
-			}
-
+				// exit();
 		}
 	}
 
-	add_action('init', 'restaurant_save_reservation');
-?>
+
+add_action( 'wp_ajax_ajax-test', 'test_function' ); 
+add_action( 'wp_ajax_nopriv_ajax-test', 'test_function' );  
