@@ -44,3 +44,55 @@ $(document).ready(function(){
 // 		alert(1)
 // 	}, 'json');
 // })
+
+var map;
+
+function initMap() {
+
+		console.log(options);
+    var latLng = {
+        lat: parseFloat(options.lattitude),
+        lng: parseFloat(options.longitude)
+    };
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: latLng,
+        zoom: parseInt(options.zoom)
+    });
+
+
+    var marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: 'La Pizzeria'
+
+    });
+}
+
+// Adapt the map
+var map = $('#map');
+var breakPoint = 768;
+if (map.length > 0) {
+    if ($(document).width() >= breakPoint) {
+        displayMap(0);
+    } else {
+        displayMap(300);
+    }
+}
+$(window).resize(function() {
+    if ($(document).width() >= breakPoint) {
+        displayMap(0);
+    } else {
+        displayMap(300);
+    }
+});
+
+function displayMap(value) {
+    if (value == 0) {
+        var locationSection = $('.location-reservation');
+        var locationHeight = locationSection.height();
+        $('#map').css({ 'height': locationHeight });
+    } else {
+        $('#map').css({ 'height': value });
+    }
+}

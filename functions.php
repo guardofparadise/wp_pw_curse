@@ -11,10 +11,24 @@ function restaurant_setup() {
   add_image_size( 'specialties', 768, 515, true);
   add_image_size( 'specialty-portrait', 435, 530, true);
   update_option('thumbnail_size_w', 253);
-  update_option('thumbnail_size_h', 164);
+	update_option('thumbnail_size_h', 164);
+
+	
+add_theme_support( 'title-tag' );
+	
 }
 
 add_action('after_setup_theme', 'restaurant_setup');
+
+function lapizzeria_custom_logo() {
+	$logo = array(
+		'height' => 200,
+		'width' => 250
+	);
+	add_theme_support('custom-logo', $logo);
+}
+
+add_action('after_setup_theme', 'lapizzeria_custom_logo');
 
 function restaurant_styles() {
 
@@ -29,13 +43,46 @@ function restaurant_styles() {
 	wp_enqueue_style('fluidboxcss');
 	wp_enqueue_style('style');
 
+	$apikey = esc_html(get_option('lapizzeria_gmap_apikey'));
+
+	if(is_front_page()):
+		wp_register_script('googlemaps', 'https://maps.googleapis.com/maps/api/js?key=' . $apikey .'&callback=initMap', array(), '',  true);
+	endif;
+
 	wp_register_script('fluidboxjs', get_template_directory_uri() . '/js/jquery.fluidbox.min.js', array('jquery'), '1.0', true);
 	wp_register_script('script', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0', true);
 
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('fluidboxjs');
+	wp_enqueue_script('googlemaps');
 	wp_enqueue_script('script');
+
+	wp_localize_script(
+		'script',
+		'options',
+		array(
+			'lattitude' => esc_html( get_option('lapizzeria_gmap_latitude') ),
+			'longitude' => esc_html( get_option('lapizzeria_gmap_longitude') ),
+			'zoom' => esc_html( get_option('lapizzeria_gmap_zoom') )
+		)
+	);
+	
 }
+
+function lapizzeria_admin_scripts() {
+
+	wp_enqueue_style('sweetalert', get_template_directory_uri() . '/css/sweetalert.css' );
+	wp_enqueue_script('sweetalertjs', get_template_directory_uri() . '/js/sweetalert.js', array('jquery'), 1.0, true );
+	wp_enqueue_script('adminjs', get_template_directory_uri() . '/js/admin-ajax.js', array('jquery'), 1.0, true);
+
+	wp_localize_script(
+		'adminjs',
+		'admin_ajax',
+		array('ajaxurl' => admin_url('admin-ajax.php'))
+	);
+}
+
+add_action('admin_enqueue_scripts', 'lapizzeria_admin_scripts');
 
 add_action('wp_enqueue_scripts', 'restaurant_styles');
 
@@ -114,14 +161,14 @@ function restaurant_specialties() {
 }
 add_action('init', 'restaurant_specialties');
 
-// function test_js_vars() {
-// 	$vars = array(
-// 		'ajax_url' => admin_url('admin-ajax.php') 
-// 	);
-// 	echo "<script>window.wp = " . json_encode($vars) . "</script>";
-// }
 
-
-
+//google map needs async and defer 
+function add_async_defer($tag, $handle){
+	if('googlemaps' !== $handle) {
+		return $tag;
+	} 
+	return str_replace(' src', ' async="async" defer="defer" src', $tag);
+}
+add_filter('script_loader_tag', 'add_async_defer', 10, 2);
  
 

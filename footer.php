@@ -9,8 +9,8 @@
 			?>
 
 			<div class="location">
-				<p>High Hills Down street Up road 434</p>
-				<p>Phone Number: 123123 43242 123</p>
+				<p><?php echo esc_html(get_option('lapizzeria_location')); ?></p>
+				<p><?php echo esc_html(get_option('lapizzeria_phonenumber')); ?></p>
 			</div>
 
 			<p class="copyright"> All rights reserved <?php echo date('Y'); ?></p>

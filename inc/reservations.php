@@ -1,5 +1,30 @@
 <?php 
 
+function lapizzera_delete_reservation() {
+	if($_POST['type'] == 'delete'):
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'reservation';
+		$id_reservation = $_POST['id'];
+
+		$result = $wpdb->delete($table, array('id' => $id_reservation), array('%d'));
+
+		if($result == 1) {
+			$response = array(
+				'response' => 'success',
+				'id'  => $id_reservation
+			);
+		} else {
+			$response = array(
+				'response' => 'error'
+			);
+		}
+	endif;
+	die(json_encode($response));
+}
+
+add_action('wp_ajax_lapizzera_delete_reservation', 'lapizzera_delete_reservation');
+
 function test_function(){
 	global $wpdb;
 

@@ -13,7 +13,11 @@
 	<div class="container">
 		<div class="logo">
 			<a href="<?php echo esc_url( home_url('/') ); ?>">
-				<img class="logoimage" src="<?php echo get_template_directory_uri() ?>/img/img/logo.svg" alt="logoimage">
+			<?php 
+				if(function_exists('the_custom_logo')) {
+					the_custom_logo();
+				}
+			?>
 			</a>
 		</div>
 		<div class="header-information">
@@ -32,8 +36,8 @@
 					?>
 				</div>	
 				<div class="address">
-					<p>8342 Way Aney Mountain View VM 234234</p>
-					<p>Phone Number: -324238 324289 890</p>
+					<p><?php echo esc_html(get_option('lapizzeria_location')); ?></p>
+					<p><?php echo esc_html(get_option('lapizzeria_phonenumber')); ?></p>
 				</div>				
 			</div>
 			<div class="block_left">
